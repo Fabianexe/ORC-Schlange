@@ -1,7 +1,7 @@
 from sqlite3 import connect
 
 class DB:
-	def __init__(self,path="example/people.db"):
+	def __init__(self,path="people.db"):
 		self.conn = connect(path)
 		self.c = self.conn.cursor()
 	
