@@ -4,22 +4,21 @@
 		<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 		<title>Bibliography</title>
 		
-<script src="mixitup.min.js"></script>
 <script src="jquery-3.2.1.min.js"></script>
 <script type="text/javascript">
 
 $(function(){
-	var mixer = mixitup('#content')
 	search = $(".filter-input input[type='search']")
 	search.keyup(function(){
 		inputText = search.val().toLowerCase()
-		matchings = []
 		$('.mix').each(function() {
 			if($(this).text().toLowerCase().match(inputText) ) {
-				matchings.push(this)
+				$(this).show()
+			}
+			else {
+				$(this).hide()
 			}
 		});
-		mixer.filter(matchings)
 	})
 })
 

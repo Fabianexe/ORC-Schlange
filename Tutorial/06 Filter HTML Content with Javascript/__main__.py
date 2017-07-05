@@ -144,15 +144,15 @@ body = """
 """
 
 head = """
-<script src="mixitup.min.js"></script>
 <script src="jquery-3.2.1.min.js"></script>
 <script type="text/javascript">
 {javascript}
 </script>
 """
-#js = """
-#//empty
-#"""
+
+js = """
+//empty
+"""
 
 #js = """
 #$(function(){
@@ -166,43 +166,41 @@ head = """
 
 #js = """
 #$(function(){
-#	var mixer = mixitup('#content')
 #	search = $(".filter-input input[type='search']")
 #	search.keyup(function(){
 #		inputText = search.val().toLowerCase()
-#		matchings = []
 #		$('.mix').each(function() {
 #			if($(this).text().toLowerCase().match(inputText) ) {
-#				matchings.push(this)
+#				$(this).show()
+#			}
+#			else {
+#				$(this).hide()
 #			}
 #		});
-#		mixer.filter(matchings)
 #	})
 #})
 #"""
 
-js = """
-checkY = function(){
-	$('.year').each(function() {
-		if ($("."+$(this).text()+ ".mix").is(":visible")) $(this).show()
-		else $(this).hide()
-	});
-}
-$(function(){
-	var mixer = mixitup('#content')
-	search = $(".filter-input input[type='search']")
-	search.keyup(function(){
-		inputText = search.val().toLowerCase()
-		matchings = []
-		$('.mix').each(function() {
-			if($(this).text().toLowerCase().match(inputText) ) {
-				matchings.push(this)
-			}
-		});
-		mixer.filter(matchings,checkY)
-	})
-})
-"""
+#js = """
+#$(function(){
+#	search = $(".filter-input input[type='search']")
+#	search.keyup(function(){
+#		inputText = search.val().toLowerCase()
+#		$('.mix').each(function() {
+#			if($(this).text().toLowerCase().match(inputText) ) {
+#				$(this).show()
+#			}
+#			else {
+#				$(this).hide()
+#			}
+#		});
+#		$('.year').each(function() {
+#			if ($("."+$(this).text()+ ".mix").is(":visible")) $(this).show()
+#			else $(this).hide()
+#		});
+#	})
+#})
+#"""
 
 head = head.format(javascript= js)
 
