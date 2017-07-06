@@ -217,6 +217,7 @@ if __name__ == "__main__":
 	bib = BibliographyData()
 	for d in uniqdocs:
 		joinBibliography (bib,parse_string(api.getWork(d),"bibtex"))
+	
 	style = HtmlStyle()
 	style.sort = lambda x: sorted(x, key = lambda e:-int(e.fields['year']))
 	style.format_labels =  lambda x: [int(e.fields['year']) for e in x]
