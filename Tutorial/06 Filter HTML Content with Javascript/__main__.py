@@ -150,9 +150,9 @@ head = """
 </script>
 """
 
-js = """
-//empty
-"""
+#js = """
+#//empty
+#"""
 
 #js = """
 #$(function(){
@@ -181,26 +181,26 @@ js = """
 #})
 #"""
 
-#js = """
-#$(function(){
-#	search = $(".filter-input input[type='search']")
-#	search.keyup(function(){
-#		inputText = search.val().toLowerCase()
-#		$('.mix').each(function() {
-#			if($(this).text().toLowerCase().match(inputText) ) {
-#				$(this).show()
-#			}
-#			else {
-#				$(this).hide()
-#			}
-#		});
-#		$('.year').each(function() {
-#			if ($("."+$(this).text()+ ".mix").is(":visible")) $(this).show()
-#			else $(this).hide()
-#		});
-#	})
-#})
-#"""
+js = """
+$(function(){
+	search = $(".filter-input input[type='search']")
+	search.keyup(function(){
+		inputText = search.val().toLowerCase()
+		$('.mix').each(function() {
+			if($(this).text().toLowerCase().match(inputText) ) {
+				$(this).show()
+			}
+			else {
+				$(this).hide()
+			}
+		});
+		$('.year').each(function() {
+			if ($("."+$(this).text()+ ".mix").is(":visible")) $(this).show()
+			else $(this).hide()
+		});
+	})
+})
+"""
 
 head = head.format(javascript= js)
 
