@@ -1,12 +1,12 @@
 # ORC-Schlange
 
-![ORC-Schlange logo][orcschlange.png]
+![ORC-Schlange logo](/orcschlange.png)
 
-##Introduction
+## Introduction
 
 The project try to create nice publishing websites as static-sites from the ORCID data.
 
-##Background Story
+## Background Story
 
 These project started as a tutorial on how to interact with a REST-API in python and write a static site with the data. You can find these tutorial here:
 
