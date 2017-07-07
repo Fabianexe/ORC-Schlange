@@ -1,11 +1,22 @@
 import logging
+from sql import DB
 
 class BaseReporter:
 	def __init__(self, args):
 		self.args =args
-		FORMAT = "%(levelname)-5s %(asctime)s: %(message)s"
-		logging.basicConfig(level=logging.DEBUG, format=FORMAT, datefmt = "%H:%M:%S")
+		logger = logging.Logger(name= "logging loui")
+		logger.setLevel(logging.DEBUG)
+		ch = logging.StreamHandler()
+		ch.setLevel(logging.DEBUG)
+		formatter = logging.Formatter("%(levelname)-5s %(asctime)s: %(message)s","%H:%M:%S")
+		ch.setFormatter(formatter)
+		logger.addHandler(ch)
 		
-	debug = lambda self,ret: self.args.verbose and logging.info(ret)
-	error = lambda self,ret: logging.error(ret)
-	
+		self.debug = lambda ret: self.args.verbose and logger.info(ret)
+		self.error = lambda ret: logger.error(ret)
+	def open(self):
+		self.debug("Open db file {0}".format(self.args.dbfile))
+		self.db = DB(self.args.dbfile)
+	def close(self):
+		self.debug("Close db file {0}".format(self.args.dbfile))
+		self.db.close()

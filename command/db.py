@@ -1,14 +1,8 @@
-from sql import DB
+
 import sys
 from command import BaseReporter
 
 class DBReporeter(BaseReporter):
-	def open(self):
-		self.debug("Open db file {0}".format(self.args.dbfile))
-		self.db = DB(self.args.dbfile)
-	def close(self):
-		self.debug("Close db file {0}".format(self.args.dbfile))
-		self.db.close()
 	def add(self):
 		self.open()
 		self.debug("Validate orchid")
