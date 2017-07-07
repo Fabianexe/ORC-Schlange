@@ -1,4 +1,4 @@
-from sqlite3 import connect, OperationalError
+from sqlite3 import connect, OperationalError,IntegrityError
 from orcid import OrcID
 
 class DB:
@@ -13,8 +13,12 @@ class DB:
 	def close(self):
 		self.conn.close()
 	def createDB(self):
-		self.c.execute("CREATE TABLE people (orcid CHARACTER(16), start DATE, end DATE)")
-		self.conn.commit()
+		try:
+			self.c.execute("CREATE TABLE people (orcid CHARACTER(16) PRIMARY KEY, start DATE, end DATE)")
+			self.conn.commit()
+			return True
+		except OperationalError:
+			return False
 	def dropDB(self):
 		try:
 			self.c.execute("DROP TABLE people")
@@ -22,8 +26,12 @@ class DB:
 		except OperationalError:
 			pass
 	def addUser(self, orchid, start, stop):
-		self.c.execute("INSERT INTO people VALUES (?,?,?)", (orchid, start, stop))
-		self.conn.commit()
+		try:
+			self.c.execute("INSERT INTO people VALUES (?,?,?)", (orchid, start, stop))
+			self.conn.commit()
+			return True
+		except IntegrityError:
+			return False
 	getOrcIds = lambda self: [OrcID(*t) for t in self.getList()]
 	def createTestDB(self):
 		self.dropDB()
