@@ -4,9 +4,12 @@ import itertools
 import pybtex.database
 from bib import joinBibliography,writeHTML
 import shutil
+from config import Config
 
 class FetchReporeter(BaseReporter):
 	def fetch(self):
+		self.debug("Read config")
+		Config(self.args)
 		self.open()
 		
 		self.debug("Read orchids")

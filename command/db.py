@@ -54,3 +54,9 @@ class DBReporeter(BaseReporter):
 		self.debug("Create test DB")
 		self.db.createTestDB()
 		self.close()
+	def addConf(self):
+		self.open()
+		self.debug("Insert config in DB")
+		self.db.addConfig(self.args.cliend_id, self.args.clien_secret, self.args.auth, self.args.api)
+		self.close()
+

@@ -1,0 +1,6 @@
+{
+	"client_id": "APP-DZ4II2NELOUB89VC",
+	"client_secret": "c0a5796e-4ed3-494b-987e-827755174718",
+	"auth": "https://sandbox.orcid.org/oauth/token",
+	"api": "https://pub.sandbox.orcid.org/v2.0"
+}

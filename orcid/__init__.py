@@ -1,6 +1,6 @@
 import time
 from requests import Session
-import config
+from config import Config
 import pybtex.database
 from bib import Date, WorkSummary
 
@@ -13,13 +13,12 @@ class OrcID:
 	__str__ = lambda self: self.getID() + ": " + str(self.start) + " - " + str(self.stop)
 
 class API:
-	authurl = "https://sandbox.orcid.org/oauth/token" if config.OrcSAND else "https://orcid.org/oauth/token"
-	baseurl = "https://pub.sandbox.orcid.org/v2.0"  if config.OrcSAND else "https://pub.orcid.org/v2.0/"
-	
 	def __init__(self):
+		self.authurl = Config().auth
+		self.baseurl = Config().api
 		self.s = Session()
 		self.s.headers = {'Accept': 'application/json'}
-		data = {"grant_type":"client_credentials", "scope":"/read-public","client_id":config.ORC_client_id, "client_secret":config.ORC_client_secret}
+		data = {"grant_type":"client_credentials", "scope":"/read-public","client_id":Config().client_id, "client_secret":Config().client_secret}
 		r = self.s.request(method ="post",url= self.authurl, data=data)
 		self.s.headers = {'Accept': 'application/json', "Access token":r.json()["access_token"]}
 	getDate = lambda self,d: Date(d["year"]["value"],d["month"]["value"] if d["month"] else None, d["day"]["value"] if d["day"] else None )
