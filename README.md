@@ -1,4 +1,4 @@
-# ORC-Schlange
+# ORCSchlange
 
 ![ORC-Schlange logo](/orcschlange.png)
 
