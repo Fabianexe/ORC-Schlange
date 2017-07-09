@@ -1,11 +1,11 @@
 import argparse 
 
+__version__ = "0.7.1"
+
 def addGlobal(parser):
 	parser.set_defaults(func= lambda x: parser.print_help())
-	parser.add_argument('--version', action='version', version='%(prog)s 1.0')
+	parser.add_argument('--version', action='version', version='%(prog)s ' + __version__)
 	parser.add_argument('-v', '--verbose', action='store_true', dest="verbose", help="Create verbose output" )
-
-from command.fetch import FetchReporeter
 
 def addFetch(fetch):
 	fetch.set_defaults(func= lambda args: FetchReporeter(args).fetch(), config = 0)
@@ -21,8 +21,7 @@ def addFetch(fetch):
 	api.add_argument("--db",action='store_const',const=1, dest= "config",help="Load the options out of the SQLite DB.These need that they are added before with db addAPI.")
 	api.add_argument("--file",action='store', dest= "config",help="Load the options out of the file that is given. These need that the file is in a json format that have a field \"client_id\" and \"client_secret\".")
 	api.add_argument("--inline",nargs=2, dest= "config",help="Give the data inline. First the id then the secret.")
-	
-from command.db import DBReporeter
+
 def addDB(db):
 	db.set_defaults(func= lambda x: db.print_help() if not x.test else DBReporeter(args).createTest())
 	db.add_argument('--dbfile', action='store', dest="dbfile", help="The SQLite DB file that is used.", default="output/people.db" )
@@ -45,7 +44,7 @@ def addDB(db):
 	
 	CREATEdb =  dbsubs.add_parser('create', help='Create a new databank')
 	CREATEdb.set_defaults(func= lambda args: DBReporeter(args).create())
-	
+
 def addADB(ADDdb):
 	ADDdb.add_argument( 'orchid', action="store" , help="The new added ORCID." )
 	ADDdb.add_argument( 'start', action="store" , help="The date after the ORCID data is fetched in form \"YYYY-MM-DD\”." )

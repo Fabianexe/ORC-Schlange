@@ -1,5 +1,5 @@
 from sqlite3 import connect, OperationalError,IntegrityError
-from orcid import OrcID
+from ORCSchlange.orcid import OrcID
 
 class DB:
 	def __init__(self,path="output/people.db"):

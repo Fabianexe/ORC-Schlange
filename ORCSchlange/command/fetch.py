@@ -1,10 +1,10 @@
-from command import BaseReporter
-import orcid
+from ORCSchlange.command import BaseReporter
+import ORCSchlange.orcid
 import itertools
 import pybtex.database
-from bib import joinBibliography,writeHTML
+from ORCSchlange.bib import joinBibliography,writeHTML
 import shutil
-from config import Config
+from ORCSchlange.config import Config
 
 class FetchReporeter(BaseReporter):
 	def fetch(self):

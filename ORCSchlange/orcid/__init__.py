@@ -1,8 +1,8 @@
 import time
 from requests import Session
-from config import Config
+from ORCSchlange.config import Config
 import pybtex.database
-from bib import Date, WorkSummary
+from ORCSchlange.bib import Date, WorkSummary
 
 class OrcID:
 	def __init__(self, id, start, stop):

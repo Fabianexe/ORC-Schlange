@@ -1,5 +1,5 @@
 import json
-import sql
+import ORCSchlange.sql
 
 class Config:
 	class __OnlyOne:

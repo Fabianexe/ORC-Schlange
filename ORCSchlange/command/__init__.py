@@ -1,5 +1,5 @@
 import logging
-from sql import DB
+from ORCSchlange.sql import DB
 
 class BaseReporter:
 	def __init__(self, args):

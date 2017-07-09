@@ -1,6 +1,6 @@
 
 import sys
-from command import BaseReporter
+from ORCSchlange.command import BaseReporter
 
 class DBReporeter(BaseReporter):
 	def add(self):
