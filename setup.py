@@ -1,6 +1,9 @@
 from setuptools import setup, find_packages
 from  ORCSchlange import __version__
 
+def read(fname):
+	return open(os.path.join(os.path.dirname(__file__), fname)).read()
+
 setup(
 	name="ORCSchlange",
 	version= __version__,
@@ -11,7 +14,7 @@ setup(
 	url= "https://github.com/ScaDS/ORC-Schlange",
 	description="Create a nice static publishing websites from ORCIDs.",
 	license="Apache 2.0",
-	
+	long_description=read('README.rst'),
 	classifiers=[
 		"Development Status :: 4 - Beta",
 		"Environment :: Console",
