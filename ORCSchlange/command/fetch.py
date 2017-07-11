@@ -1,4 +1,4 @@
-from ORCSchlange.command import BaseReporter
+from ORCSchlange.command import BaseCommand
 from ORCSchlange.orcid import API
 import itertools
 import pybtex.database
@@ -7,7 +7,7 @@ import shutil
 from ORCSchlange.config import Config
 
 
-class FetchReporeter(BaseReporter):
+class FetchReporeter(BaseCommand):
     def fetch(self):
         self.debug("Read config")
         Config(self.args)
@@ -34,13 +34,21 @@ class FetchReporeter(BaseReporter):
         uniqdocs = []
         for doc, _ in itertools.groupby(alldocs):
             uniqdocs.append(doc)
-
+        
+        works_api = dict()
+        uniqdocs.sort(key= lambda x:x.orc)
+        for key, docs in itertools.groupby(uniqdocs,key= lambda x:x.orc):
+            works_api[key] = [str(x.id) for x in docs]
+        
+        
+        
         self.debug("Get complete works")
         entries = pybtex.database.BibliographyData()
-        for doc in uniqdocs:
-            ent = api.get_work(doc)
-            if ent is not None:
+        
+        for key in works_api:
+            for ent in api.get_works(key, works_api[key]):
                 join_bibliography(entries, ent)
+
         if self.args.bib:
             self.debug("Write bib in {path}{name}.bib".format(**vars(self.args)))
             entries.to_file(open("{path}{name}.bib".format(**vars(self.args)), "w"))

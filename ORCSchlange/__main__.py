@@ -1,9 +1,10 @@
 from argparse import ArgumentParser
 
-from ORCSchlange.__init__ import *
+from ORCSchlange import *
 
 
 def main():
+    """The main function that loads the commands."""
     parser = ArgumentParser(prog='orcs', description="A simple tool to interact with the ORICID-Public-API.",
                             formatter_class=argparse.ArgumentDefaultsHelpFormatter)
 
@@ -13,7 +14,7 @@ def main():
     fetch = subparsers.add_parser('fetch',
                                   help="""Fetch the information from the ORICID-Public-API. 
                                   Call "fetch -h" for more details.""")
-
+    
     add_fetch(fetch)
 
     db = subparsers.add_parser('db',

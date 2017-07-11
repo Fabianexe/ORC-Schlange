@@ -1,15 +1,16 @@
 """The functions to handle the main function"""
 import argparse
 from ORCSchlange.command.fetch import FetchReporeter
-from ORCSchlange.command.db import DBReporeter
+from ORCSchlange.command.db import DbCommand
 
 __version__ = "0.7.1"
 """The version of the package"""
 
 
 def add_global(parser):
-    """Add the global arguments to the parser
-    :param parser:
+    """Add the global arguments to the parser.
+
+    :param parser: The global ArgumentParser
     """
     parser.set_defaults(func=lambda x: parser.print_help())
     parser.add_argument('--version', action='version', version='%(prog)s ' + __version__)
@@ -17,7 +18,10 @@ def add_global(parser):
 
 
 def add_fetch(fetch):
-    """Add the fetch arguments to the fetch command"""
+    """Add the fetch arguments to the fetch command.
+
+    :param fetch: The fetch ArgumentParser.
+    """
     fetch.set_defaults(func=lambda args: FetchReporeter(args).fetch(), config=0)
     fetch.add_argument('--dbfile', action='store', dest="dbfile", help="The SQLite DB file that is used.",
                        default="output/people.db")
@@ -45,8 +49,11 @@ def add_fetch(fetch):
 
 
 def add_db(db):
-    """Add the db arguments and subcommands to the db command"""
-    db.set_defaults(func=lambda args: db.print_help() if not args.test else DBReporeter(args).create_test())
+    """Add the db arguments and subcommands to the db command
+
+    :param db: The db ArgumentParser.
+    """
+    db.set_defaults(func=lambda args: db.print_help() if not args.test else DbCommand(args).create_test())
     db.add_argument('--dbfile', action='store', dest="dbfile", help="The SQLite DB file that is used.",
                     default="output/people.db")
     db.add_argument('-t', '--test', action='store_true', help=argparse.SUPPRESS)
@@ -62,30 +69,37 @@ def add_db(db):
     add_conf(conf_db)
 
     print_db = dbsubs.add_parser('print', help='Print the content of the databank')
-    print_db.set_defaults(func=lambda args: DBReporeter(args).prints())
+    print_db.set_defaults(func=lambda args: DbCommand(args).prints())
 
     clean_db = dbsubs.add_parser('clean', help='Reset the databank')
-    clean_db.set_defaults(func=lambda args: DBReporeter(args).clean())
+    clean_db.set_defaults(func=lambda args: DbCommand(args).clean())
 
     create_db = dbsubs.add_parser('create', help='Create a new databank')
-    create_db.set_defaults(func=lambda args: DBReporeter(args).create())
+    create_db.set_defaults(func=lambda args: DbCommand(args).create())
 
 
 def add_adddb(add_dbs):
-    """Add the arguments to the add command"""
+    """Add the arguments to the add command
+
+    :param add_dbs: THe db add ArgumentParser.
+    """
     add_dbs.add_argument('orchid', action="store", help="The new added ORCID.")
-    add_dbs.add_argument('start', action="store", help="The date after the ORCID data is fetched in form \"YYYY-MM-DD\”.")
+    add_dbs.add_argument('start', action="store", help="""The date after the ORCID data is 
+    fetched in form "YYYY-MM-DD”.""")
     add_dbs.add_argument('stop', action="store", help="The date until the ORCID data is fetched in form \"YYYY-MM-DD\”.",
                          nargs="?")
-    add_dbs.set_defaults(func=lambda args: DBReporeter(args).add())
+    add_dbs.set_defaults(func=lambda args: DbCommand(args).add())
 
 
 def add_conf(conf_db):
-    """Add the arguments to the addConf command"""
+    """Add the arguments to the addConf command
+
+     :param conf_db: THe db addConf ArgumentParser.
+    """
     conf_db.add_argument('cliend_id', action="store", help="The client id of you app.")
     conf_db.add_argument('clien_secret', action="store", help="The client secret of you app.")
     conf_db.add_argument('auth', action="store", help="The url to authenticate.", nargs="?",
                          default="https://orcid.org/oauth/token")
     conf_db.add_argument('api', action="store", help="The url of the api.", nargs="?",
                          default="https://pub.orcid.org/v2.0/")
-    conf_db.set_defaults(func=lambda args: DBReporeter(args).add_conf())
+    conf_db.set_defaults(func=lambda args: DbCommand(args).add_conf())

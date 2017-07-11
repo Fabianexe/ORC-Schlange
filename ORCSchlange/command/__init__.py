@@ -1,27 +1,59 @@
+"""Package that contains the base commands of the program."""
 import logging
 from ORCSchlange.sql import DB
 
 
-class BaseReporter:
+class BaseCommand:
+    """The base Command that initialize the logger and save the arguments."""
+    
+    logger = None
     def __init__(self, args):
+        """Save the arguments and initialize the logger.
+        
+        Save the arguments in args. Also if not happen initialize the logger.
+        If the verbose flag is not set overwrite debug function with an empty function.
+        
+        :param args: The argument i.e. the given command line parameters.
+        """
         self.args = args
         self.db = None
-        logger = logging.Logger(name="logging loui")
-        logger.setLevel(logging.DEBUG)
-        ch = logging.StreamHandler()
-        ch.setLevel(logging.DEBUG)
-        formatter = logging.Formatter("%(levelname)-5s %(asctime)s: %(message)s", "%H:%M:%S")
-        ch.setFormatter(formatter)
-        logger.addHandler(ch)
+        if self.logger is None:
+            self.logger = logging.Logger(name="logging loui")
+            self.logger.setLevel(logging.DEBUG)
+            ch = logging.StreamHandler()
+            ch.setLevel(logging.DEBUG)
+            formatter = logging.Formatter("%(levelname)-5s %(asctime)s: %(message)s", "%H:%M:%S")
+            ch.setFormatter(formatter)
+            self.logger.addHandler(ch)
+        if not self.args.verbose:
+            self.debug = lambda x: None
 
-        self.debug = lambda ret: self.args.verbose and logger.info(ret)
-        self.error = lambda ret: logger.error(ret)
+    def debug (self, ret):
+        """ Make an debug output.
+        
+        :param ret: The text that is reported as info.
+        """
+        self.logger.info(ret)
+    def error(self,ret):
+        """Make an error output.
+        
+        :param ret: The text that is reported as error.
+        """
+        self.logger.error(ret)
 
     def open(self):
-        self.debug("Open db file {0}".format(self.args.dbfile))
-        self.db = DB(self.args.dbfile)
+        """Open an SQLite DB connection."""
+        if self.db is None:
+            self.debug("Open db file {0}".format(self.args.dbfile))
+            self.db = DB(self.args.dbfile)
+        else:
+            self.error("DB connection is already open.")
 
     def close(self):
-        self.debug("Close db file {0}".format(self.args.dbfile))
-        self.db.close()
-        self.db = None
+        """Close the SQLite DB connection."""
+        if self.db is not None:
+            self.debug("Close db file {0}".format(self.args.dbfile))
+            self.db.close()
+            self.db = None
+        else:
+            self.error("DB connection is already closed.")
