@@ -59,6 +59,8 @@ class FetchReporeter(BaseCommand):
             self.debug("Write html in {path}{name}.html".format(**vars(self.args)))
             write_html(entries, path="{path}{name}.html".format(**vars(self.args)))
         if self.args.jquery:
+            
+            
             jname = "jquery-3.2.1.min.js"
             self.debug("Copy jQuery to {path}{jname}".format(path=self.args.path, jname=jname))
             shutil.copyfile("bib/{jname}".format(jname=jname), "{path}{jname}".format(path=self.args.path, jname=jname))

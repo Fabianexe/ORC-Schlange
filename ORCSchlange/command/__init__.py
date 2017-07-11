@@ -3,6 +3,18 @@ import logging
 from ORCSchlange.sql import DB
 
 
+def really(question):
+    """Ask a Yes/Mo question at the prompt.
+    
+    :param question: The question that is asked.
+    :return: True if the response starts with a y.
+    """
+    ask = ""
+    while not ask.startswith("y") and not ask.startswith("n"):
+        ask = input(question).lower()
+    return ask.startswith("y")
+
+
 class BaseCommand:
     """The base Command that initialize the logger and save the arguments."""
     

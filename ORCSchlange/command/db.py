@@ -1,6 +1,6 @@
 """The db commands."""
 import sys
-from ORCSchlange.command import BaseCommand
+from ORCSchlange.command import BaseCommand, really
 
 
 def check_date(d):
@@ -39,12 +39,18 @@ class DbCommand(BaseCommand):
                 self.error("Invalide stop")
                 sys.exit(1)
             self.debug("Add orcid")
-            if not self.db.add_user(self.args.orchid, self.args.start, self.args.stop):
+            add_code = self.db.add_user(self.args.orchid, self.args.start, self.args.stop)
+            if add_code == 1:
                 self.error("Doubled orchid entry. Nothing have been added.")
+            elif add_code == 2:
+                self.error("No db found. Try to use \"db create\" command first.")
         else:
             self.debug("Add orcid")
-            if not self.db.add_user(self.args.orchid, self.args.start, None):
+            add_code = self.db.add_user(self.args.orchid, self.args.start, None)
+            if add_code == 1:
                 self.error("Doubled orchid entry. Nothing have been added.")
+            elif add_code == 2:
+                self.error("No db found. Try to use \"db create\" command first.")
         self.close()
     
     def prints(self):
@@ -60,10 +66,7 @@ class DbCommand(BaseCommand):
         It is ask if the db realy should be dropped. If the answer is yes al entries are deleted.
         """
         question = "Do you really want to delete the complete db? (Y/N)\n"
-        ask = ""
-        while not ask.startswith("Y") and not ask.startswith("N"):
-            ask = input(question)
-        if ask.startswith("Y"):
+        if really(question):
             self.open()
             self.debug("Drop old DB")
             self.db.drop_db()
@@ -82,10 +85,7 @@ class DbCommand(BaseCommand):
     def create_test(self):
         """Drop old db and create the test DB with three entries."""
         question = "Do you really want to delete the complete db and create a db with test entries? (Y/N)\n"
-        ask = ""
-        while not ask.startswith("Y") and not ask.startswith("N"):
-            ask = input(question)
-        if ask.startswith("Y"):
+        if really(question):
             self.open()
             self.debug("Create test DB")
             self.db.create_test_db()

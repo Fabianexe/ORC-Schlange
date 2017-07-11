@@ -17,7 +17,7 @@ class Date:
         :param m: The month.
         :param d: The day of the month.
         """
-        self.y = int(y)
+        self.y = int(y) if y else None
         self.m = int(m) if m else None
         self.d = int(d) if d else None
     
