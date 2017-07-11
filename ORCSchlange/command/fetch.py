@@ -1,3 +1,5 @@
+"""The fetch commands."""
+
 from ORCSchlange.command import BaseCommand
 from ORCSchlange.orcid import API
 import itertools
@@ -8,39 +10,40 @@ from ORCSchlange.config import Config
 
 
 class FetchReporeter(BaseCommand):
+    """The class that contains all fetch commands."""
+    
     def fetch(self):
+        """Fetch data from public ORCID API"""
         self.debug("Read config")
         Config(self.args)
         self.open()
-
+        
         self.debug("Read orchids")
         orcs = self.db.get_orcids()
-
+        
         self.close()
-
+        
         self.debug("Open API connection")
         api = API()
-
+        
         self.debug("Get all work summaries")
         alldocs = []
         for orc in orcs:
             docs = api.get_worksums(orc)
             alldocs += docs
-
+        
         self.debug("Sort all work summaries")
         alldocs.sort()
-
+        
         self.debug("Make entries uniques")
         uniqdocs = []
         for doc, _ in itertools.groupby(alldocs):
             uniqdocs.append(doc)
         
         works_api = dict()
-        uniqdocs.sort(key= lambda x:x.orc)
-        for key, docs in itertools.groupby(uniqdocs,key= lambda x:x.orc):
+        uniqdocs.sort(key=lambda x: x.orc)
+        for key, docs in itertools.groupby(uniqdocs, key=lambda x: x.orc):
             works_api[key] = [str(x.id) for x in docs]
-        
-        
         
         self.debug("Get complete works")
         entries = pybtex.database.BibliographyData()
@@ -48,7 +51,7 @@ class FetchReporeter(BaseCommand):
         for key in works_api:
             for ent in api.get_works(key, works_api[key]):
                 join_bibliography(entries, ent)
-
+        
         if self.args.bib:
             self.debug("Write bib in {path}{name}.bib".format(**vars(self.args)))
             entries.to_file(open("{path}{name}.bib".format(**vars(self.args)), "w"))

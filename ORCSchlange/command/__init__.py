@@ -7,6 +7,7 @@ class BaseCommand:
     """The base Command that initialize the logger and save the arguments."""
     
     logger = None
+    
     def __init__(self, args):
         """Save the arguments and initialize the logger.
         
@@ -27,20 +28,21 @@ class BaseCommand:
             self.logger.addHandler(ch)
         if not self.args.verbose:
             self.debug = lambda x: None
-
-    def debug (self, ret):
+    
+    def debug(self, ret):
         """ Make an debug output.
         
         :param ret: The text that is reported as info.
         """
         self.logger.info(ret)
-    def error(self,ret):
+    
+    def error(self, ret):
         """Make an error output.
         
         :param ret: The text that is reported as error.
         """
         self.logger.error(ret)
-
+    
     def open(self):
         """Open an SQLite DB connection."""
         if self.db is None:
@@ -48,7 +50,7 @@ class BaseCommand:
             self.db = DB(self.args.dbfile)
         else:
             self.error("DB connection is already open.")
-
+    
     def close(self):
         """Close the SQLite DB connection."""
         if self.db is not None:

@@ -7,14 +7,17 @@ def check_date(d):
     """Check if a string is a valide date of the form "YYYY-MM-DD".
     
     :param d: The date string that is checked.
-    :return: True if it is a valide date string.
+    :return: True if it is a not valid date string.
     """
-    return len(d) != 10 or len(d.split("-")) != 3 or not d.split("-")[0].isdecimal() \
-           or not d.split("-")[1].isdecimal() or not d.split("-")[2].isdecimal()
+    if len(d) != 10:
+        return True
+    split = d.split("-")
+    return len(split) != 3 or not split[0].isdecimal() or not split[1].isdecimal() or not split[2].isdecimal()
 
 
 class DbCommand(BaseCommand):
     """The class that contains all db commands."""
+    
     def add(self):
         """Add an new orcid to the db."""
         self.open()
@@ -43,14 +46,14 @@ class DbCommand(BaseCommand):
             if not self.db.add_user(self.args.orchid, self.args.start, None):
                 self.error("Doubled orchid entry. Nothing have been added.")
         self.close()
-
+    
     def prints(self):
         """Prints all orcids that are in the db."""
         self.open()
         for orc in self.db.get_orcids():
             print(orc)
         self.close()
-
+    
     def clean(self):
         """Clean the db i.e. delet all orcids in the db.
         
@@ -58,7 +61,7 @@ class DbCommand(BaseCommand):
         """
         question = "Do you really want to delete the complete db? (Y/N)\n"
         ask = ""
-        while not ask.startswith("Y")  and not ask.startswith("N"):
+        while not ask.startswith("Y") and not ask.startswith("N"):
             ask = input(question)
         if ask.startswith("Y"):
             self.open()
@@ -67,7 +70,7 @@ class DbCommand(BaseCommand):
             self.debug("Create new DB")
             self.db.create_db()
             self.close()
-
+    
     def create(self):
         """Create an empty db. It is necessary before any add function."""
         self.open()
@@ -75,7 +78,7 @@ class DbCommand(BaseCommand):
         if not self.db.create_db():
             self.error("DB already exists")
         self.close()
-
+    
     def create_test(self):
         """Drop old db and create the test DB with three entries."""
         question = "Do you really want to delete the complete db and create a db with test entries? (Y/N)\n"
@@ -87,7 +90,7 @@ class DbCommand(BaseCommand):
             self.debug("Create test DB")
             self.db.create_test_db()
             self.close()
-
+    
     def add_conf(self):
         """Insert an config information and overwrite old entry."""
         self.open()
