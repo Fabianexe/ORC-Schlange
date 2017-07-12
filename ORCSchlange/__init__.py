@@ -1,10 +1,33 @@
 """The functions to handle the main function"""
-import argparse
+from argparse import ArgumentParser, SUPPRESS
+
 from ORCSchlange.command.fetch import FetchReporeter
 from ORCSchlange.command.db import DbCommand
 
 __version__ = "0.7.1"
 """The version of the package"""
+
+
+def main():
+    """The main function that loads the commands."""
+    parser = ArgumentParser(prog='orcs', description="A simple tool to interact with the ORICID-Public-API.")
+    
+    add_global(parser)
+    
+    subparsers = parser.add_subparsers(metavar="The ORC-Schlange commands are:")
+    fetch = subparsers.add_parser('fetch',
+                                  help="""Fetch the information from the ORICID-Public-API.
+                                  Call "fetch -h" for more details.""")
+    
+    add_fetch(fetch)
+    
+    db = subparsers.add_parser('db',
+                               help='Manage the SQLite DB that contains the orcids. Call \"db -h\" for more details.',
+                               add_help=False)
+    add_db(db)
+    
+    args = parser.parse_args()
+    args.func(args)
 
 
 def add_global(parser):
@@ -34,7 +57,7 @@ def add_fetch(fetch):
                        default="out")
     fetch.add_argument('--jQuery', action='store_true', dest="jquery",
                        help="Copy jQuery version 3.2.1 to the output path. (default: %(default)s)")
-
+    
     api = fetch.add_argument_group(title="API-Configuration",
                                    description="""To interact with the ORCID-API the client-id and client-secret 
                                    need to set or loaded. The default is the sandbox""")
@@ -56,24 +79,24 @@ def add_db(db):
     db.set_defaults(func=lambda args: db.print_help() if not args.test else DbCommand(args).create_test())
     db.add_argument('--dbfile', action='store', dest="dbfile", help="The SQLite DB file that is used.",
                     default="people.db")
-    db.add_argument('-t', '--test', action='store_true', help=argparse.SUPPRESS)
-    db.add_argument('-h', "--help", action='store_true', help=argparse.SUPPRESS)
-
+    db.add_argument('-t', '--test', action='store_true', help=SUPPRESS)
+    db.add_argument('-h', "--help", action='store_true', help=SUPPRESS)
+    
     dbsubs = db.add_subparsers(title="db", description="Manage the SQLite DB that contains the orcids",
                                metavar="The databank functions are:")
-
+    
     add_dbs = dbsubs.add_parser('add', help='Add an new ORCID to the DB')
     add_adddb(add_dbs)
-
+    
     conf_db = dbsubs.add_parser('addConf', help='Add an new Config to the DB')
     add_conf(conf_db)
-
+    
     print_db = dbsubs.add_parser('print', help='Print the content of the databank')
     print_db.set_defaults(func=lambda args: DbCommand(args).prints())
-
+    
     clean_db = dbsubs.add_parser('clean', help='Reset the databank')
     clean_db.set_defaults(func=lambda args: DbCommand(args).clean())
-
+    
     create_db = dbsubs.add_parser('create', help='Create a new databank')
     create_db.set_defaults(func=lambda args: DbCommand(args).create())
 
@@ -86,7 +109,8 @@ def add_adddb(add_dbs):
     add_dbs.add_argument('orchid', action="store", help="The new added ORCID.")
     add_dbs.add_argument('start', action="store", help="""The date after the ORCID data is 
     fetched in form "YYYY-MM-DD”.""")
-    add_dbs.add_argument('stop', action="store", help="The date until the ORCID data is fetched in form \"YYYY-MM-DD\”.",
+    add_dbs.add_argument('stop', action="store",
+                         help="The date until the ORCID data is fetched in form \"YYYY-MM-DD\”.",
                          nargs="?")
     add_dbs.set_defaults(func=lambda args: DbCommand(args).add())
 
