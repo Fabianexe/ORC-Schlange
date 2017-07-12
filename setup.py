@@ -3,7 +3,6 @@ from ORCSchlange import __version__
 import os.path
 
 
-
 def read(fname):
     return open(os.path.join(os.path.dirname(__file__), fname)).read()
 
@@ -40,5 +39,6 @@ setup(
             'version': ('setup.py', __version__),
             'release': ('setup.py', __version__)
         }
-    }
+    },
+    keywords="ORCID Website Bibliography Publication"
 )
