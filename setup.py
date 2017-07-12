@@ -1,10 +1,7 @@
 from setuptools import setup, find_packages
 from ORCSchlange import __version__
 import os.path
-from sphinx.setup_command import BuildDoc
 
-
-cmdclass = {'build_sphinx': BuildDoc}
 
 
 def read(fname):
@@ -14,15 +11,16 @@ def read(fname):
 setup(
     name="ORCSchlange",
     version=__version__,
-    cmdclass=cmdclass,
     packages=find_packages(),
+    package_data={"ORCSchlange.command": "*.js"},
+    zip_safe=False,
     install_requires=['pybtex>=0.21', 'requests>=2.18.1'],
     author="Fabian Gärtner",
     author_email="fabian@bioinf.uni-leipzig.de",
     url="https://github.com/ScaDS/ORC-Schlange",
     description="Create a nice static publishing websites from ORCIDs.",
     license="Apache 2.0",
-    long_description=read('README.rst'),
+    long_description=read('docs/README.rst'),
     classifiers=[
         "Development Status :: 4 - Beta",
         "Environment :: Console",

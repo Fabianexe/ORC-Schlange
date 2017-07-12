@@ -7,6 +7,7 @@ import pybtex.database
 from ORCSchlange.bib import join_bibliography, write_html
 import shutil
 from ORCSchlange.config import Config
+import os.path
 
 
 class FetchReporeter(BaseCommand):
@@ -52,6 +53,8 @@ class FetchReporeter(BaseCommand):
             for ent in api.get_works(key, works_api[key]):
                 join_bibliography(entries, ent)
         
+        self.args.path = self.args.path if self.args.path.endswith("/") else self.args.path + "/"
+        
         if self.args.bib:
             self.debug("Write bib in {path}{name}.bib".format(**vars(self.args)))
             entries.to_file(open("{path}{name}.bib".format(**vars(self.args)), "w"))
@@ -59,8 +62,7 @@ class FetchReporeter(BaseCommand):
             self.debug("Write html in {path}{name}.html".format(**vars(self.args)))
             write_html(entries, path="{path}{name}.html".format(**vars(self.args)))
         if self.args.jquery:
-            
-            
             jname = "jquery-3.2.1.min.js"
             self.debug("Copy jQuery to {path}{jname}".format(path=self.args.path, jname=jname))
-            shutil.copyfile("bib/{jname}".format(jname=jname), "{path}{jname}".format(path=self.args.path, jname=jname))
+            shutil.copyfile(os.path.dirname(__file__) + "/{jname}".format(jname=jname),
+                            "{path}{jname}".format(path=self.args.path, jname=jname))
