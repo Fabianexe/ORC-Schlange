@@ -1,6 +1,6 @@
 
 ORCSchlange.command
-=============================================
+===================
 .. automodule:: ORCSchlange.command
    :members:
    :special-members:

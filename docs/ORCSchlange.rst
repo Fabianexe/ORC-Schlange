@@ -1,5 +1,5 @@
 ORCSchlange
-=============================================
+===========
 .. automodule:: ORCSchlange
    :members:
    :special-members:

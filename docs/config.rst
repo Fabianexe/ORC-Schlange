@@ -1,7 +1,7 @@
 
 
 ORCSchlange.config
-=============================================
+==================
 .. automodule:: ORCSchlange.config
    :members:
    :special-members:

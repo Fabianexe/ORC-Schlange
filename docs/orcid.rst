@@ -1,6 +1,6 @@
 
 ORCSchlange.orcid
-=============================================
+=================
 .. automodule:: ORCSchlange.orcid
    :members:
    :special-members:

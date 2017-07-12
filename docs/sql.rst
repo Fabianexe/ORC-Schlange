@@ -1,6 +1,6 @@
 
 ORCSchlange.sql
-=============================================
+===============
 .. automodule:: ORCSchlange.sql
    :members:
    :special-members:
