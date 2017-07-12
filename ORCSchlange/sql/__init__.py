@@ -114,5 +114,8 @@ class DB:
         
         :return: The data as a tuple.
         """
-        self.c.execute('SELECT * FROM config')
+        try:
+            self.c.execute('SELECT * FROM config')
+        except OperationalError:
+            return None
         return self.c.fetchone()

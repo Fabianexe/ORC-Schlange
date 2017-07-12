@@ -17,6 +17,12 @@ class FetchReporeter(BaseCommand):
         """Fetch data from public ORCID API"""
         self.debug("Read config")
         Config(self.args)
+        if not Config().ready:
+            if self.args.config == 1:
+                self.error("No configuration found in db.")
+            else:
+                self.error("No valid json file.")
+            return
         self.open()
         
         self.debug("Read orchids")

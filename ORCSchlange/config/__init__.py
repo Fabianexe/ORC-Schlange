@@ -13,14 +13,19 @@ class Config:
             self.client_secret = None
             self.api = None
             self.auth = None
+            self.ready = False
             if args.config == 0:
                 self.sandbox()
+                self.ready = True
             elif args.config == 1:
-                self.read_db(args.dbfile)
+                if self.read_db(args.dbfile):
+                    self.ready = True
             elif isinstance(args.config, str):
-                self.read_file(args.config)
+                if self.read_file(args.config):
+                    self.ready = True
             else:
                 self.read_inline(*args.config)
+                self.ready = True
 
         def sandbox(self):
             """Connect with the ORCID sandbox."""
@@ -35,21 +40,28 @@ class Config:
             db = ORCSchlange.sql.DB(path)
             conf = db.read_config()
             db.close()
+            if conf is None:
+                return False
             self.api = conf[0]
             self.auth = conf[1]
             self.client_id = conf[2]
             self.client_secret = conf[3]
+            return True
 
         def read_file(self, path):
             """Read connection information from a file"""
-            f = open(path)
-            content = f.read()
-            f.close()
-            js = json.loads(content)
-            self.client_id = js["client_id"]
-            self.client_secret = js["client_secret"]
-            self.auth = js["auth"] if "auth" in js else "https://orcid.org/oauth/token"
-            self.api = js["api"] if "api" in js else "https://pub.orcid.org/v2.0/"
+            try:
+                f = open(path)
+                content = f.read()
+                f.close()
+                js = json.loads(content)
+                self.client_id = js["client_id"]
+                self.client_secret = js["client_secret"]
+                self.auth = js["auth"] if "auth" in js else "https://orcid.org/oauth/token"
+                self.api = js["api"] if "api" in js else "https://pub.orcid.org/v2.0/"
+                return True
+            except:
+                return False
 
         def read_inline(self, clientid, secret):
             """Read connection information from the args."""
