@@ -5,7 +5,7 @@ import ORCSchlange.sql
 
 class Config:
     """Main config object as an singleton"""
-    class __OnlyOne:
+    class SingeltonObject:
         """Enclosed class that hold the information."""
         def __init__(self, args):
             """Initialization of the class."""
@@ -68,7 +68,7 @@ class Config:
         """Initialize the outer class if not already done initialize the inner class."""
         if not Config.instance:
             if args:
-                Config.instance = Config.__OnlyOne(args)
+                Config.instance = Config.SingeltonObject(args)
 
     def __getattr__(self, name):
         """Get attributes from the inner class."""

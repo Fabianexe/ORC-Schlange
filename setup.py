@@ -1,6 +1,10 @@
 from setuptools import setup, find_packages
 from ORCSchlange import __version__
 import os.path
+from sphinx.setup_command import BuildDoc
+
+
+cmdclass = {'build_sphinx': BuildDoc}
 
 
 def read(fname):
@@ -10,6 +14,7 @@ def read(fname):
 setup(
     name="ORCSchlange",
     version=__version__,
+    cmdclass=cmdclass,
     packages=find_packages(),
     install_requires=['pybtex>=0.21', 'requests>=2.18.1'],
     author="Fabian Gärtner",
@@ -31,5 +36,11 @@ setup(
         'console_scripts': [
             'orcs = ORCSchlange.__main__:main'
         ]
+    },
+    command_options={
+        'build_sphinx': {
+            'version': ('setup.py', __version__),
+            'release': ('setup.py', __version__)
+        }
     }
 )
