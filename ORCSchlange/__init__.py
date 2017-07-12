@@ -45,7 +45,7 @@ def add_fetch(fetch):
 
     :param fetch: The fetch ArgumentParser.
     """
-    fetch.set_defaults(func=lambda args: FetchReporeter(args).fetch(), config=0)
+    fetch.set_defaults(func=lambda args: FetchReporeter(args).fetch(), config=1)
     fetch.add_argument('--dbfile', action='store', dest="dbfile", help="The SQLite DB file that is used.",
                        default="people.db")
     fetch.add_argument('--html', action='store_false', dest="html",
@@ -86,18 +86,28 @@ def add_db(db):
                                metavar="The databank functions are:")
     
     add_dbs = dbsubs.add_parser('add', help='Add an new ORCID to the DB')
+    add_dbs.add_argument('--dbfile', action='store', dest="dbfile", help="The SQLite DB file that is used.",
+                         default="people.db")
     add_adddb(add_dbs)
     
     conf_db = dbsubs.add_parser('addConf', help='Add an new Config to the DB')
+    conf_db.add_argument('--dbfile', action='store', dest="dbfile", help="The SQLite DB file that is used.",
+                         default="people.db")
     add_conf(conf_db)
     
     print_db = dbsubs.add_parser('print', help='Print the content of the databank')
+    print_db.add_argument('--dbfile', action='store', dest="dbfile", help="The SQLite DB file that is used.",
+                          default="people.db")
     print_db.set_defaults(func=lambda args: DbCommand(args).prints())
     
     clean_db = dbsubs.add_parser('clean', help='Reset the databank')
+    clean_db.add_argument('--dbfile', action='store', dest="dbfile", help="The SQLite DB file that is used.",
+                          default="people.db")
     clean_db.set_defaults(func=lambda args: DbCommand(args).clean())
     
     create_db = dbsubs.add_parser('create', help='Create a new databank')
+    create_db.add_argument('--dbfile', action='store', dest="dbfile", help="The SQLite DB file that is used.",
+                           default="people.db")
     create_db.set_defaults(func=lambda args: DbCommand(args).create())
 
 
