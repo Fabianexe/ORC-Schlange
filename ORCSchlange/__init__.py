@@ -24,7 +24,7 @@ def add_fetch(fetch):
     """
     fetch.set_defaults(func=lambda args: FetchReporeter(args).fetch(), config=0)
     fetch.add_argument('--dbfile', action='store', dest="dbfile", help="The SQLite DB file that is used.",
-                       default="output/people.db")
+                       default="people.db")
     fetch.add_argument('--html', action='store_false', dest="html",
                        help="Is a html output created. (default: %(default)s)")
     fetch.add_argument('--bib', action='store_true', dest="bib", help="Is a bib output created. (default: %(default)s)")
@@ -55,7 +55,7 @@ def add_db(db):
     """
     db.set_defaults(func=lambda args: db.print_help() if not args.test else DbCommand(args).create_test())
     db.add_argument('--dbfile', action='store', dest="dbfile", help="The SQLite DB file that is used.",
-                    default="output/people.db")
+                    default="people.db")
     db.add_argument('-t', '--test', action='store_true', help=argparse.SUPPRESS)
     db.add_argument('-h', "--help", action='store_true', help=argparse.SUPPRESS)
 
