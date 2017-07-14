@@ -40,5 +40,5 @@ setup(
             'release': ('setup.py', __version__)
         }
     },
-    keywords="ORCID Website Bibliography Publication"
+    keywords="ORCID Website Bibliography Publication ScaDS"
 )
