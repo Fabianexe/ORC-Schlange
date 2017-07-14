@@ -54,7 +54,7 @@ def add_fetch(fetch):
     fetch.add_argument('--path', action='store', dest="path",
                        help="The path where the output is created. (default: %(default)s)", default="output/")
     fetch.add_argument('--name', action='store', dest="name", help="The name of the output. (default: %(default)s)",
-                       default="out")
+                       default="index")
     fetch.add_argument('--jQuery', action='store_true', dest="jquery",
                        help="Copy jQuery version 3.2.1 to the output path. (default: %(default)s)")
     
