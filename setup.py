@@ -14,7 +14,7 @@ setup(
     package_data={"ORCSchlange.command": "*.js"},
     zip_safe=False,
     install_requires=['pybtex>=0.21', 'requests>=2.18.1'],
-    author="Fabian Gärtner",
+    author="Fabian Gaertner",
     author_email="fabian@bioinf.uni-leipzig.de",
     url="https://github.com/ScaDS/ORC-Schlange",
     description="Create a nice static publishing websites from ORCIDs.",

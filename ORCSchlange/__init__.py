@@ -118,10 +118,11 @@ def add_adddb(add_dbs):
     """
     add_dbs.add_argument('orchid', action="store", help="The new added ORCID.")
     add_dbs.add_argument('start', action="store", help="""The date after the ORCID data is 
-    fetched in form "YYYY-MM-DD”.""")
+    fetched in form "YYYY-MM-DD".""")
     add_dbs.add_argument('stop', action="store",
-                         help="The date until the ORCID data is fetched in form \"YYYY-MM-DD\”.",
+                         help="The date until the ORCID data is fetched in form \"YYYY-MM-DD\".",
                          nargs="?")
+    add_dbs.set_defaults(func=lambda args: DbCommand(args).add())
     add_dbs.set_defaults(func=lambda args: DbCommand(args).add())
 
 
